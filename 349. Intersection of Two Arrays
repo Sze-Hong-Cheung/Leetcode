@@ -1,0 +1,62 @@
+
+//Sorted array with Time complexity O(n) and Space complexity O(1)
+class Solution {
+    public int[] intersection(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        
+        int i = 0, j = 0;
+        List<Integer> list = new ArrayList<Integer>();
+        while (i < nums1.length && j < nums2.length) {
+            int a = nums1[i], b = nums2[j];
+            if (a == b) list.add(a);
+            if (a <= b) {
+                while (i < nums1.length - 1 && nums1[i] == nums1[i + 1]) i++;
+                i++;
+            }
+            if (a >= b) {
+                while (j < nums2.length -1  && nums2[j] == nums2[j + 1]) j++;
+                j++;
+            }
+        }
+        return list.stream().mapToInt(x -> x).toArray();
+    }
+}
+
+// Two Set
+class Solution {
+    public int[] intersection(int[] nums1, int[] nums2) {
+        HashSet<Integer> set1 = new HashSet<Integer>();
+        for (Integer n: nums1) set1.add(n);
+        HashSet<Integer> set2 = new HashSet<Integer>();
+        for (Integer n: nums2) set2.add(n);
+        
+        set1.retainAll(set2);
+        
+        int [] output = new int[set1.size()];
+        int idx = 0;
+        for (int n: set1) output[idx++] = n;
+        return output;
+    }
+}
+
+// Two Map
+class Solution {
+    public int[] intersection(int[] nums1, int[] nums2) {
+        HashMap<Integer, Integer> map1 = new HashMap<Integer, Integer>();
+        HashMap<Integer, Integer> map2 = new HashMap<Integer, Integer>();
+        for (int num: nums1) {
+            map1.put(num, 1);
+        }
+        for (int num: nums2) {
+            map2.put(num, 1);
+        }
+        List<Integer> res = new ArrayList<Integer>();
+        for (int a: map1.keySet()) {
+            if (map2.containsKey(a)) {
+                res.add(a);
+            }
+        }
+        return res.stream().mapToInt(x -> x).toArray();
+    }
+}
